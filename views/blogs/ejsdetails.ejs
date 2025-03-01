@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs') %>
+  <body>
+    <%- include('../partials/nav.ejs') %>
+    <div class="details content">
+        <h2><%= blog.title %></h2>
+        <div class="content">
+            <p><%= blog.body %></p>
+        </div>
+        <a class="delete" data-doc="<%= blog._id%>">
+            <img src="" alt="delete icon" width="36" height="36">
+        </a>
+    </div>
+    <script>
+        const deleteBlog = document.querySelector("a.delete")
+        deleteBlog.addEventListener("click",(event)=>{
+            const delete_api =`/blogs/${deleteBlog.dataset.doc}`
+            fetch(delete_api,{
+                method:'Delete'
+            })
+            .then((response)=>response.json())
+            .then((data)=>window.location.href=data.redirect)
+            .catch(err=>console.log(err))
+        })
+    </script>
+    <%- include('../partials/footer.ejs') %>
+  </body>
+</html>

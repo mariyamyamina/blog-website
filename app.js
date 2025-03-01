@@ -11,20 +11,21 @@ mongoose
   .connect(dbUrl)
   .then((result) => {
     console.log("Db connected");
-    console.log("port listening on 3000");
-    app.listen(3000);
+    console.log("port listening on 7000");
+    app.listen(7000);
   })
   .catch((err) => {
     console.log("error:", err);
   });
+
 app.set("view engine", "ejs");
-app.use((req, res, next) => {
-  console.log("MiddleWare Started");
-  console.log("host:", req.hostname);
-  console.log("path:", req.path);
-  console.log("method:", req.method);
-  next(); //go to next middleware
-});
+// app.use((req, res, next) => {
+//   console.log("MiddleWare Started");
+//   console.log("host:", req.hostname);
+//   console.log("path:", req.path);
+//   console.log("method:", req.method);
+//   next(); //go to next middleware
+// });
 
 app.use((req, res, next) => {
   console.log("The Next Middleware");
@@ -32,7 +33,6 @@ app.use((req, res, next) => {
 });
 //to find files inside the public folder without specifing the entire path
 app.use(express.static("public"));
-app.use(express.static('views/assets'));
 app.use(express.urlencoded({ extended: true }));
 //middleware is viewing the request.body & this works to navigate all url.
 
@@ -94,8 +94,12 @@ app.use("/blogs", router);
 
 app.get("/about", (req, res) => {
   //     res.sendFile("./blogs/ejsAbout", { root: __dirname })
-  res.render("./blogs/ejsAbout.ejs",{title:'About Us'});
+  res.render("blogs/ejsAbout",{title:'About Us'});
 });
+
+app.get("/create",(req,res)=>{
+  res.render("./blogs/ejscreate.ejs",{title:'Create Blog'});
+})
 
 // app.get('/404', (req, res) => {
 //     res.sendFile("./views/404.html", { root: __dirname })
